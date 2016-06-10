@@ -1,6 +1,6 @@
 <?php
 
-var_dump ($singleMovie);
+// var_dump ($singleMovie);
 
 ?>
 
@@ -12,7 +12,7 @@ var_dump ($singleMovie);
 
 		<title> Introduction to MySQL</title>
 		<meta name="description" content="Between 150 and 160 characters">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" type = "text/css" href="css/styles.css">
 
 	</head>
 
@@ -20,11 +20,15 @@ var_dump ($singleMovie);
 		
 
 		<h1>  <?= $singleMovie ["title"] ?> </h1>
-		<p> </p>
+		<p> Release Year - <?= $singleMovie ["release_date"] ?> </p>
+		<p> <?= $singleMovie ["description"] ?> </p>
+
+		<a href=""> Edit Movie </a>
+		<br>
+		<a href="./?Page=delete&amp;id= <?= $singleMovie["id"] ?>"> Delete Movie </a>
+		<br>
+		<a href="./"> Back to Movie List </a>
 		
-
-
-
 
 	</body>
 

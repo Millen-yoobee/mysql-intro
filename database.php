@@ -44,11 +44,35 @@ function getSingleMovie () {
 	$result = $dbc -> query ($sql);
 
 	$singleMovie = $result -> fetch_assoc ();
+	
+	// print_r( $singleMovie );  // or 
+
 	var_dump ($singleMovie);	
 
 	return $singleMovie;
 
+ }
+
+function deleteMovie ()  {
+	global $dbc;
+
+	if ( isset ($_GET ["id"]) ) {
+		$id = $_GET [ "id"];
+	
+
+
+	 }
+	
+	$sql = "DELETE FROM movies WHERE id = '$id' ";
+
+	$result = $dbc -> query ($sql);
+	header ("Location:./");
+
+
 
  }
+
+
+
 
 ?>

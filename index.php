@@ -7,13 +7,17 @@ $movies = getMovieList();
 
 $singleMovie = getSingleMovie();
 
-if ( isset ($_GET["page"]) ) {
+if ( !isset ($_GET ["page"] ) ) {
 
-	include "movie.php";
+	include "home.php";
  }	
-	else {
+	else  if ( $_GET ["page"] == "delete") {
 
-		include "home.php";
+			deleteMovie ();
+			}
+
+			else if ( $_GET ["page"] == "movie" ) {
+				include "movie.php";
 	 }
 
  

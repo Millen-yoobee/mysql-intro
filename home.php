@@ -7,7 +7,6 @@
 		<title> Introduction to MySQL</title>
 		<meta name="description" content="Between 150 and 160 characters">
 		<link rel="stylesheet" href="css/styles.css">
-
 	</head>
 
 	<body>
@@ -15,10 +14,14 @@
 
 
 		<h1> Movies List </h1>
+
 		<?php
 			foreach ($movies as $movie) {
 
-			echo ' <li><a href="./?page=movie&amp;id='. $movie['id'] .'">'. $movie[ "id" ] . ".  " . $movie[ "title"] . '</a></li>';
+			echo 
+			' <li>
+				<a href="./?page=movie&amp;id= '. $movie['id'] . ' "> '. $movie[ "id" ] . ".  " . $movie[ "title"] . ' </a>
+			 </li>' ;
 			 }
 
 
