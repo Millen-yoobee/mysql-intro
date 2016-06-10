@@ -14,9 +14,41 @@ function getMovieList () {
 
 	$result = $dbc -> query ($sql);
 
-	$allMovies = $result -> fetch_all ();
-	print_r ($allMovies);
-	return $allMovies;
+	// print_r ($result);  for debugging
+
+	// $allMovies = $result -> fetch_all ();  returns all records
+	// $allMovies = $result -> fetch_assoc (); // returns 1 at a time
+
+	$movieArray = [];
+
+	while ( $allMovies = $result -> fetch_assoc () )  
+	{
+		$movieArray [] = $allMovies;
+	 }
+	
+	return $movieArray;
 
  }
+
+function getSingleMovie () {
+	global $dbc;
+	if ( isset ($_GET ["id"]) ) {
+		$id = $_GET [ "id"];
+	 }
+	 else { 
+		$id = 2;
+	  }
+
+	$sql = "SELECT id, title, description, release_date FROM movies WHERE id = '$id' ";
+
+	$result = $dbc -> query ($sql);
+
+	$singleMovie = $result -> fetch_assoc ();
+	var_dump ($singleMovie);	
+
+	return $singleMovie;
+
+
+ }
+
 ?>
