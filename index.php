@@ -1,11 +1,22 @@
 <?php
 
-include "database.php";
+// include "database.php";
+
+include "Models/Database.php";
+include "Models/Movie.php";
+
+ // Instantiate an object for Movie
+$movie = new Movie;
+$movies = $movie -> SelectAll();
+
+$singleMovie = $movie->find();
+// var_dump($singleMovie);
 
 // function getMovieList ();
-$movies = getMovieList();
+// $movies = getMovieList();
 
-$singleMovie = getSingleMovie();
+
+
 
 // if ( isset( $_GET ["page"]) ) {
 // 	$page = $_GET ["page"];
@@ -42,7 +53,7 @@ switch ($page) {
 		break;
 
 	case "delete":
-		deleteMovie ();
+		Movie::deleteMovie ();   // refers to the Movie class
 		break;
 
 	default:
