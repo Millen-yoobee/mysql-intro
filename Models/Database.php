@@ -62,11 +62,26 @@ abstract class Database {
 		
 		$statement -> execute();
 
-		header("Location:./");
+		
 
 	 }
 
+	public function addMovie () {
+		$dbc = static::getDatabaseConnection();
 
+		$id = isset( $_GET["id"]) ? $_GET["id"] : null;
+		
+		$sql = "DELETE FROM " . static::$tableName . " WHERE id = :id";
+
+		$statement = $dbc->prepare($sql);
+		
+		$statement->bindValue(":id", $id);
+		
+		$statement -> execute();
+
+		
+
+	 }
 
 
  }

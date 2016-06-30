@@ -24,7 +24,7 @@
 
 		?>
 
-		<a href="./?page=movieForm&amp;id=<?=$singleMovie['id']?>">Edit Movie</a>
+		<a href="./?page=edit&amp;id=<?=$singleMovie['id']?>">Edit Movie</a>
 		<br>
 		<a href="./?page=delete&amp;id=<?=$singleMovie['id']?>">Delete Movie </a>
 		<br>
