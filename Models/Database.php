@@ -4,6 +4,29 @@ abstract class Database {
 
 	protected $dbc;
 
+	protected $data = [];
+
+	public function __construct($input = null) {
+		//__construct runs automatically whenever an object is created in the Movie class or any children classes (tables within the DBc) of the Database class
+
+		if ( static::$columns ) {
+			foreach (static::$columns as $column) {
+				$this->$column = null;
+			}
+		}
+
+		if(is_numeric($input)) {
+			$this->find($input);
+		 }
+
+		 if ( is_array($input) ) {
+		 	foreach (static::$columns as $column) {
+				$this->$column = $input[$column];
+				
+			}
+		 }
+
+	 }
 
 	protected static function getDatabaseConnection() {
 		$dsn = "mysql:host=localhost;dbname=millen-db;charset=utf8";
@@ -34,10 +57,10 @@ abstract class Database {
 		return $Array;
 	  }
 
-	public function find() {
+	public function find($id) {
 		$dbc = static::getDatabaseConnection();
 
-		$id = isset( $_GET["id"]) ? $_GET["id"] : null;
+		// $id = isset( $_GET["id"]) ? $_GET["id"] : null;
 
 		$sql = "SELECT " . implode(",", static::$columns) . " FROM " . static::$tableName . " WHERE id=:id";
 
@@ -45,9 +68,37 @@ abstract class Database {
 		$statement->bindValue(":id", $id);
 		$statement -> execute();
 		$singleRecord = $statement -> fetch(PDO::FETCH_ASSOC);
-		return $singleRecord;
-	   
-	   }
+		$this->data = $singleRecord;
+		 }
+
+	public function insert() {
+
+		$dbc = static::getDatabaseConnection();
+
+		$columns = static::$columns;
+
+		unset($columns[array_search("id", $columns)]);
+
+		$sql = "INSERT INTO " . static::$tableName . 
+				" (" . implode(',', $columns) . ") VALUES (";
+		$insertColumns = [];
+			foreach ($columns as $column) {
+				array_push($insertColumns, ":" .$column);
+			 }
+		$sql .= implode(",", $insertColumns);
+		$sql .= ")";
+
+		var_dump( $sql );
+
+		// $statement = $dbc->prepare($sql);
+		// $statement->bindValue(":id", $id);
+		// $statement -> execute();
+
+	}	 
+
+
+
+
 
 	public function deleteMovie () {
 		$dbc = static::getDatabaseConnection();
@@ -61,9 +112,6 @@ abstract class Database {
 		$statement->bindValue(":id", $id);
 		
 		$statement -> execute();
-
-		
-
 	 }
 
 	public function addMovie () {
@@ -78,10 +126,22 @@ abstract class Database {
 		$statement->bindValue(":id", $id);
 		
 		$statement -> execute();
-
-		
-
 	 }
+
+	public function __get($name) {
+		if ( in_array($name, static::$columns) ) {
+			return $this->data[$name];
+		} else {
+			echo "Property 'name' is not found in the data variable";
+		 }
+
+	  }
+
+
+
+
+
 
 
  }
+

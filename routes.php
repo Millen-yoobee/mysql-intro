@@ -32,6 +32,12 @@ switch ($page) {
 		$controller->add ();
 		break;
 
+	case "insert":
+		// var_dump($_POST);
+		$controller = new MoviesController;
+		$controller->insert();
+		break;
+
 	case "edit":
 		$controller = new MoviesController;
 		$controller->edit();			// instead of editMovie ();
