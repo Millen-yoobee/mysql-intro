@@ -43,6 +43,11 @@ switch ($page) {
 		$controller->edit();			// instead of editMovie ();
 		break;
 
+	case "update":
+		$controller = new MoviesController;
+		$controller->update();			// instead of editMovie ();
+		break;
+
 	case "delete":
 		 // Movie::deleteMovie ();   // refers to the Movie class
 		$controller = new MoviesController;

@@ -25,13 +25,21 @@ class MoviesController extends Controller {
 	}
 
 	public static function edit() {
-		$movie = new Movie;  // __construct automatically runs
-		$singleMovie = $movie->find();
+		$id = isset($_GET["id"]) ? ($_GET["id"]) : null; 
+		$singleMovie = new Movie($id);  // __construct automatically runs
+	
 		$view = new MovieFormView(compact("singleMovie"));
 
 		$view->render();
-	
-						
+	}
+
+	public static function update() {
+		 // var_dump( $_POST);
+		$movie = new Movie($_POST);
+		 // var_dump( $movie);
+		$movie->update();
+		header("Location:./?page=movie&id=" . $movie->id);	
+
 	}
 
 	public static function add () {
@@ -46,6 +54,7 @@ class MoviesController extends Controller {
 		$movie = new Movie($_POST);
 		
 		$movie->insert();
+		header("Location: ./?page=movie&id=" . $movie->id);
 	 }
 
 }

@@ -10,7 +10,7 @@ class HomeController extends Controller
 		// echo "here";
 		$movie = new Movie;
 		$movies = $movie -> SelectAll();
-		 //var_dump($movies);
+		 //var_dump(count($movies));
 		
 
 		$view = new HomeView(compact("movies"));

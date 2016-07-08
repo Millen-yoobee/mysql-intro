@@ -77,7 +77,7 @@ abstract class Database {
 
 		$columns = static::$columns;
 
-		unset($columns[array_search("id", $columns)]);
+		unset($columns[array_search("id", $columns)]); // removes the id because this is an insert
 
 		$sql = "INSERT INTO " . static::$tableName . 
 				" (" . implode(',', $columns) . ") VALUES (";
@@ -87,17 +87,45 @@ abstract class Database {
 			 }
 		$sql .= implode(",", $insertColumns);
 		$sql .= ")";
+		 // var_dump( $sql );
 
-		var_dump( $sql );
+		$statement = $dbc->prepare($sql);
 
-		// $statement = $dbc->prepare($sql);
-		// $statement->bindValue(":id", $id);
-		// $statement -> execute();
+		foreach ( $columns as $column) {
+			// var_dump( $column);
+			// var_dump( $this->$column);
+			$statement->bindValue(":" . $column, $this->$column);
+		 }
 
+		$result= $statement -> execute();
+		$this->id = $dbc->lastInsertId();
 	}	 
 
+	public function update() {
+		// echo("here now");
+		$dbc = static::getDatabaseConnection();
+		$columns = static::$columns;
+		unset($columns[array_search("id", $columns)]); 
 
+		$sql = "UPDATE " . static::$tableName . " SET "; 
+				
+		$updateColumns = [];
+			foreach ($columns as $column) {
+				array_push($updateColumns, $column . "=:" . $column);
+			 }
+		$sql .= implode(",", $updateColumns) . " WHERE id=:id";
+		 // var_dump( $sql);
+		$statement = $dbc->prepare($sql);
 
+		foreach ( static::$columns as $column) {
+			// var_dump( $column);
+			// var_dump( $this->$column);
+			$statement->bindValue(":" . $column, $this->$column);
+		 }
+
+		$result= $statement -> execute();
+
+	}
 
 
 	public function deleteMovie () {
@@ -132,11 +160,21 @@ abstract class Database {
 		if ( in_array($name, static::$columns) ) {
 			return $this->data[$name];
 		} else {
-			echo "Property 'name' is not found in the data variable";
+			echo "Property '$name' is not found in the data variable";
 		 }
 
 	  }
 
+	public function __set($name, $value) {
+		 // setting values to the property of objects, which was initially set to null by __contruct
+		if ( in_array($name, static::$columns) ) {
+			$this->data[$name] = $value ;
+		} else {
+			echo "Property '$name' is not set with value";
+		 }
+
+
+	 }
 
 
 
